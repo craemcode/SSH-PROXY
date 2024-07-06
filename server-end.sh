@@ -33,11 +33,18 @@ fi
 echo "Enter IP adress for client"
 read client_ip
 
+
 config="sshd:$client_ip:ALLOW"
 config_den="sshd:ALL:DENY"
 
-sed -i "1 i/${config}" text.txt
-sed -i "1 i/${config_den}" text.txt
+##count the number of lines in the configuration file
+count=$(sed -n "$=" text.txt)
+
+##insert our rules at the end of the configuration file.
+sed -i "${count}a ${config}\r${config_den}" text.txt
+
+
+#sed -i "1 a/${config_den}" text.txt
 
 #SSH_VERSION = ssh -v localhost | head -n 1
 
